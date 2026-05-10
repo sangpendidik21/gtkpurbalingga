@@ -3,984 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GTK Connect - Komunitas Pendidik Modern</title>
-    <!-- Font Google -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Icon Library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Portal GTK Purbalingga - Modern Education Hub</title>
+    <script src="https://tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cloudflare.com">
     <style>
-        :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --accent: #4895ef;
-            --success: #4cc9f0;
-            --dark: #1b263b;
-            --light: #f8f9fa;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            color: var(--dark);
-            overflow-x: hidden;
-        }
-
-        /* --- Animations --- */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        /* --- Navbar --- */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 5%;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 500;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--primary);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--primary);
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .btn-main {
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-main:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.6);
-        }
-
-        /* --- Hero Section --- */
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 4rem 5%;
-            min-height: 80vh;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            right: -100px;
-            width: 400px;
-            height: 400px;
-            background: var(--primary);
-            opacity: 0.1;
-            border-radius: 50%;
-            filter: blur(80px);
-        }
-
-        .hero-content {
-            flex: 1;
-            max-width: 600px;
-            animation: fadeIn 1s ease-out;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
-
-        .hero-image {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            position: relative;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .hero-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            width: 350px;
-            transform: rotate(-5deg);
-        }
-
-        .hero-card img {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-        }
-
-        /* --- Features Section --- */
-        .features {
-            padding: 5rem 5%;
-            background: white;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-header h2 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .section-header p {
-            color: #777;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: all 0.4s ease;
-            border: 1px solid #f0f0f0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(67, 97, 238, 0.15);
-            border-color: var(--primary);
-        }
-
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            background: rgba(67, 97, 238, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            color: var(--primary);
-            font-size: 1.8rem;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover .feature-icon {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* --- Auth Section (Login/Register) --- */
-        .auth-container {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: none; /* Hidden by default */
-        }
-
-        .auth-box {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 3rem;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: fadeIn 0.5s ease-out;
-            position: relative;
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-
-        .form-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #aaa;
-            transition: color 0.3s;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
-            border: 2px solid #eee;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s;
-            background: #f9f9f9;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
-        }
-
-        .form-control:focus + i {
-            color: var(--primary);
-        }
-
-        .auth-footer {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .auth-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        /* --- Dashboard --- */
-        .dashboard-container {
-            padding: 2rem 5%;
-            display: none; /* Hidden by default */
-            min-height: 100vh;
-        }
-
-        .dash-welcome {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: transform 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: scale(1.02);
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .stat-info h4 {
-            color: #888;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .stat-info p {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-        }
-
-        .panel {
-            background: white;
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-
-        .panel h3 {
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-        }
-
-        /* Table Styles */
-        .custom-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .custom-table th, .custom-table td {
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .custom-table th {
-            color: #888;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-        }
-
-        .status-badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-
-        .status-hadir { background: rgba(76, 201, 240, 0.15); color: #0288d1; }
-        .status-sakit { background: rgba(255, 193, 7, 0.15); color: #f57c00; }
-        .status-izin { background: rgba(156, 39, 176, 0.15); color: #7b1fa2; }
-
-        /* Simple CSS Bar Chart */
-        .chart-container {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            height: 200px;
-            padding-top: 20px;
-        }
-
-        .bar {
-            width: 30px;
-            background: linear-gradient(to top, var(--primary), var(--success));
-            border-radius: 5px 5px 0 0;
-            position: relative;
-            transition: height 1s ease;
-        }
-        
-        .bar span {
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.7rem;
-            color: #888;
-        }
-
-        .bar::before {
-            content: attr(data-value);
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        /* --- Loader & Toast --- */
-        .spinner {
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top: 3px solid white;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            display: none;
-            margin-left: 10px;
-        }
-        
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-        }
-
-        .toast {
-            background: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transform: translateX(120%);
-            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            border-left: 4px solid var(--primary);
-        }
-
-        .toast.show { transform: translateX(0); }
-        .toast.success { border-color: #2ecc71; }
-        .toast.error { border-color: #e74c3c; }
-        .toast i { font-size: 1.2rem; }
-        .toast.success i { color: #2ecc71; }
-        .toast.error i { color: #e74c3c; }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero { flex-direction: column-reverse; text-align: center; padding-top: 2rem; }
-            .hero-title { font-size: 2.5rem; }
-            .content-grid { grid-template-columns: 1fr; }
-            .nav-links { display: none; } /* Simplified for mobile */
-        }
+        @import url('https://googleapis.com');
+        body { font-family: 'Inter', sans-serif; }
+        .hero-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
     </style>
 </head>
-<body>
+<body class="bg-gray-50">
 
-    <!-- Navbar -->
-    <nav id="main-nav">
-        <div class="logo">
-            <i class="fa-solid fa-graduation-cap"></i> KOMUNITAS GTK PURBALINGGA
-        </div>
-        <ul class="nav-links">
-            <li><a href="#" onclick="app.showPage('home')" class="active">Beranda</a></li>
-            <li><a href="#">Fitur</a></li>
-            <li><a href="#">Komunitas</a></li>
-            <li><a href="#">Bantuan</a></li>
-        </ul>
-        <div id="nav-actions">
-            <button class="btn-main" onclick="app.showPage('login')">
-                <i class="fa-solid fa-right-to-bracket"></i> Masuk
-            </button>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">GTK</div>
+                <span class="text-xl font-bold text-gray-800">GTK Purbalingga</span>
+            </div>
+            <div class="hidden md:flex space-x-8 text-gray-600 font-medium">
+                <a href="#" class="hover:text-blue-600 transition">Beranda</a>
+                <a href="#fitur" class="hover:text-blue-600 transition">Layanan</a>
+                <a href="#statistik" class="hover:text-blue-600 transition">Data Statistik</a>
+                <a href="#" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition">Login Info GTK</a>
+            </div>
         </div>
     </nav>
 
-    <!-- Halaman Home -->
-    <div id="home-page">
-        <header class="hero">
-            <div class="hero-content">
-                <span style="background: rgba(67, 97, 238, 0.1); color: var(--primary); padding: 5px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
-                    🚀 Platform GTK #1 di Indonesia
-                </span>
-                <h1 class="hero-title">Digitalisasi Pendidikan <br>Masa Depan</h1>
-                <p class="hero-subtitle">
-                    Terhubung dengan ribuan guru dan tenaga kependidikan. Kelola administrasi, kembangkan kompetensi, dan bangun jejaring profesional dalam satu platform terintegrasi.
-                </p>
-                <div style="display: flex; gap: 15px;">
-                    <button class="btn-main" onclick="app.showPage('register')">Gabung Sekarang</button>
-                    <button class="btn-main" style="background: white; color: var(--primary); border: 2px solid var(--primary);" onclick="app.scrollToFeatures()">Pelajari Lebih Lanjut</button>
+    <!-- Hero Section -->
+    <header class="hero-gradient text-white py-20 px-6">
+        <div class="container mx-auto flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 space-y-6">
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight">Mewujudkan GTK Purbalingga yang Profesional & Digital</h1>
+                <p class="text-blue-100 text-lg">Pusat informasi dan layanan terintegrasi bagi Guru dan Tenaga Kependidikan di wilayah Kabupaten Purbalingga.</p>
+                <div class="flex space-x-4">
+                    <button class="bg-yellow-400 text-blue-900 px-8 py-3 rounded-lg font-bold hover:bg-yellow-300 transition shadow-lg">Cek Data PTK</button>
+                    <button class="border border-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-900 transition">Unduh Panduan</button>
                 </div>
             </div>
-            <div class="hero-image">
-                <div class="hero-card">
-                    <img src="https://picsum.photos/seed/teacher/300/200" alt="Guru Mengajar">
-                    <h4>Usmanto,S.Pd,M.Pd</h4>
-                    <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Guru Kelas Terbaik 2026</p>
-                    <div style="margin-top: 10px; display: flex; gap: 5px;">
-                        <span style="background: #eee; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem;">Inovasi</span>
-                        <span style="background: #eee; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem;">Teknologi</span>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <section class="features" id="features">
-            <div class="section-header">
-                <h2>Fitur Unggulan</h2>
-                <p>Semua yang Anda butuhkan untuk kemajuan karir pendidik</p>
-            </div>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
-                    <h3>Komunitas Luas</h3>
-                    <p>Terhubung dengan rekan sejawat dari seluruh provinsi untuk berbagi pengalaman dan materi.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
-                    <h3>Analitik Kinerja</h3>
-                    <p>Pantau kehadiran dan pencapaian kompetensi Anda dengan grafik statistik yang interaktif.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fa-solid fa-certificate"></i></div>
-                    <h3>Sertifikasi Online</h3>
-                    <p>Ikuti pelatihan dan uji kompetensi langsung dari platform dengan sertifikat digital.</p>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- Halaman Login -->
-    <div id="login-page" class="auth-container">
-        <div class="auth-box">
-            <div class="auth-header">
-                <h2 style="margin-bottom: 5px;">Selamat Datang Kembali</h2>
-                <p style="color: #888;">Silakan masuk ke akun GTK Anda</p>
-            </div>
-            <form onsubmit="app.handleLogin(event)">
-                <div class="form-group">
-                    <input type="text" id="login-email" class="form-control" placeholder="Email atau NIP" required>
-                    <i class="fa-regular fa-envelope"></i>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="login-pass" class="form-control" placeholder="Password" required>
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 0.9rem;">
-                    <label><input type="checkbox"> Ingat saya</label>
-                    <a href="#" style="color: var(--primary); text-decoration: none;">Lupa password?</a>
-                </div>
-                <button type="submit" class="btn-main" style="width: 100%; display: flex; justify-content: center; align-items: center;">
-                    Masuk Sekarang <div class="spinner"></div>
-                </button>
-            </form>
-            <div class="auth-footer">
-                Belum punya akun? <a onclick="app.switchAuth('register')">Daftar Gratis</a>
-                <br><br>
-                <a onclick="app.showPage('home')" style="font-size: 0.8rem; opacity: 0.7;">&larr; Kembali ke Beranda</a>
+            <div class="md:w-1/2 mt-12 md:mt-0 flex justify-center">
+                <img src="https://freepik.com" alt="Hero Image" class="rounded-2xl shadow-2xl w-4/5 transform hover:scale-105 transition duration-500">
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- Halaman Register -->
-    <div id="register-page" class="auth-container" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-        <div class="auth-box">
-            <div class="auth-header">
-                <h2 style="margin-bottom: 5px;">Buat Akun Baru</h2>
-                <p style="color: #888;">Bergabung dengan ekosistem pendidik</p>
+    <!-- Feature Grid -->
+    <section id="fitur" class="py-20 container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800">Layanan Unggulan</h2>
+            <p class="text-gray-500 mt-2">Akses cepat berbagai fitur administrasi kependidikan.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Item 1 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition group">
+                <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition">
+                    <i class="fas fa-user-check text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Verval PTK</h3>
+                <p class="text-gray-600">Verifikasi dan validasi data profil tenaga kependidikan secara mandiri dan cepat.</p>
             </div>
-            <form onsubmit="app.handleRegister(event)">
-                <div class="form-group">
-                    <input type="text" id="reg-nama" class="form-control" placeholder="Nama Lengkap & Gelar" required>
-                    <i class="fa-solid fa-user"></i>
+            <!-- Item 2 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition group">
+                <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-6 group-hover:bg-green-600 group-hover:text-white transition">
+                    <i class="fas fa-file-invoice-dollar text-2xl"></i>
                 </div>
-                <div class="form-group">
-                    <input type="text" id="reg-nip" class="form-control" placeholder="NIP / NUPTK" required>
-                    <i class="fa-solid fa-id-card"></i>
+                <h3 class="text-xl font-bold mb-3">Info Tunjangan</h3>
+                <p class="text-gray-600">Pantau status pencairan tunjangan profesi dan sertifikasi secara transparan.</p>
+            </div>
+            <!-- Item 3 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition group">
+                <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-6 group-hover:bg-purple-600 group-hover:text-white transition">
+                    <i class="fas fa-graduation-cap text-2xl"></i>
                 </div>
-                <div class="form-group">
-                    <input type="email" id="reg-email" class="form-control" placeholder="Alamat Email Aktif" required>
-                    <i class="fa-regular fa-envelope"></i>
-                </div>
-                <div class="form-group">
-                    <select id="reg-jabatan" class="form-control" style="padding-left: 15px; cursor: pointer;" required>
-                        <option value="" disabled selected>Pilih Jenis GTK</option>
-                        <option value="Guru Kelas">Guru Kelas</option>
-                        <option value="Guru Mapel">Guru Mata Pelajaran</option>
-                        <option value="Kepala Sekolah">Kepala Sekolah</option>
-                        <option value="Tendik">Tenaga Kependidikan</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="reg-pass" class="form-control" placeholder="Buat Password" required>
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <button type="submit" class="btn-main" style="width: 100%; display: flex; justify-content: center; align-items: center; background: linear-gradient(90deg, #11998e, #38ef7d);">
-                    Daftar Akun <div class="spinner"></div>
-                </button>
-            </form>
-            <div class="auth-footer">
-                Sudah punya akun? <a onclick="app.switchAuth('login')">Masuk disini</a>
+                <h3 class="text-xl font-bold mb-3">Diklat Online</h3>
+                <p class="text-gray-600">Pendaftaran pelatihan kompetensi guru berbasis digital untuk peningkatan karir.</p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Dashboard Page -->
-    <div id="dashboard-page" class="dashboard-container">
-        <div class="dash-welcome">
+    <!-- Statistics Section -->
+    <section id="statistik" class="bg-gray-100 py-20">
+        <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-                <h2 id="dash-greeting">Halo, Bapak/Ibu Guru! 👋</h2>
-                <p style="color: #666;">Berikut adalah ringkasan aktivitas Anda hari ini.</p>
+                <div class="text-4xl font-bold text-blue-600 mb-2">12.450</div>
+                <div class="text-gray-600 font-medium">Total Guru</div>
             </div>
-            <button class="btn-main" onclick="app.logout()" style="background: #e74c3c;">
-                <i class="fa-solid fa-right-from-bracket"></i> Keluar
-            </button>
-        </div>
-
-        <div class="stats-row">
-            <div class="stat-card">
-                <div class="stat-icon" style="background: rgba(76, 201, 240, 0.15); color: #0288d1;">
-                    <i class="fa-solid fa-clock"></i>
-                </div>
-                <div class="stat-info">
-                    <h4>Total Jam Mengajar</h4>
-                    <p>24 Jam</p>
-                </div>
+            <div>
+                <div class="text-4xl font-bold text-blue-600 mb-2">850</div>
+                <div class="text-gray-600 font-medium">Sekolah Negeri</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon" style="background: rgba(46, 204, 113, 0.15); color: #27ae60;">
-                    <i class="fa-solid fa-user-check"></i>
-                </div>
-                <div class="stat-info">
-                    <h4>Kehadiran</h4>
-                    <p>98%</p>
-                </div>
+            <div>
+                <div class="text-4xl font-bold text-blue-600 mb-2">98%</div>
+                <div class="text-gray-600 font-medium">Data Terverifikasi</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon" style="background: rgba(255, 159, 67, 0.15); color: #d35400;">
-                    <i class="fa-solid fa-award"></i>
-                </div>
-                <div class="stat-info">
-                    <h4>Poin Kompetensi</h4>
-                    <p>850 XP</p>
-                </div>
+            <div>
+                <div class="text-4xl font-bold text-blue-600 mb-2">45</div>
+                <div class="text-gray-600 font-medium">Program Aktif</div>
             </div>
         </div>
+    </section>
 
-        <div class="content-grid">
-            <div class="panel">
-                <h3><i class="fa-regular fa-calendar-check"></i> Riwayat Kehadiran Terkini</h3>
-                <table class="custom-table">
-                    <thead>
-                        <tr>
-                            <th>Tanggal</th>
-                            <th>Kegiatan</th>
-                            <th>Jam</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>24 Okt 2023</td>
-                            <td>Mengajar Kelas 2A</td>
-                            <td>07:00 - 09:30</td>
-                            <td><span class="status-badge status-hadir">Hadir</span></td>
-                        </tr>
-                        <tr>
-                            <td>23 Okt 2023</td>
-                            <td>Rapat Dewan Guru</td>
-                            <td>13:00 - 15:00</td>
-                            <td><span class="status-badge status-hadir">Hadir</span></td>
-                        </tr>
-                        <tr>
-                            <td>20 Okt 2023</td>
-                            <td>Mengajar Kelas 2B</td>
-                            <td>07:00 - 09:30</td>
-                            <td><span class="status-badge status-sakit">Sakit</span></td>
-                        </tr>
-                        <tr>
-                            <td>19 Okt 2023</td>
-                            <td>Workshop Kurikulum</td>
-                            <td>08:00 - 16:00</td>
-                            <td><span class="status-badge status-izin">Izin Dinas</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="panel">
-                <h3><i class="fa-solid fa-chart-simple"></i> Statistik Mingguan</h3>
-                <div class="chart-container">
-                    <div class="bar" style="height: 40%;" data-value="4"><span>Sen</span></div>
-                    <div class="bar" style="height: 80%;" data-value="8"><span>Sel</span></div>
-                    <div class="bar" style="height: 60%;" data-value="6"><span>Rab</span></div>
-                    <div class="bar" style="height: 90%;" data-value="9"><span>Kam</span></div>
-                    <div class="bar" style="height: 50%;" data-value="5"><span>Jum</span></div>
-                    <div class="bar" style="height: 20%;" data-value="2"><span>Sab</span></div>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 px-6">
+        <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+                <h4 class="text-white text-lg font-bold mb-4">Dindikbud Purbalingga</h4>
+                <p class="text-sm">Jl. Letjen S. Parman No. 345, Purbalingga, Jawa Tengah 53317.</p>
+                <div class="mt-4 flex space-x-4">
+                    <a href="#" class="hover:text-white"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fab fa-youtube"></i></a>
                 </div>
-                <p style="text-align: center; margin-top: 30px; font-size: 0.9rem; color: #888;">Total kehadiran minggu ini meningkat 12% dari minggu lalu.</p>
+            </div>
+            <div>
+                <h4 class="text-white text-lg font-bold mb-4">Tautan Cepat</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="https://kemdikbud.go.id" class="hover:text-white transition">Info GTK Kemdikbud</a></li>
+                    <li><a href="#" class="hover:text-white transition">SIM PKB</a></li>
+                    <li><a href="#" class="hover:text-white transition">Dapodik Purbalingga</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white text-lg font-bold mb-4">Bantuan</h4>
+                <p class="text-sm mb-4">Butuh bantuan teknis terkait data Anda? Hubungi admin operator kami.</p>
+                <a href="mailto:helpdesk@dindikbud.purbalinggakab.go.id" class="text-blue-400 hover:underline">helpdesk@purbalingga.go.id</a>
             </div>
         </div>
-    </div>
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-xs">
+            &copy; 2026 Dinas Pendidikan dan Kebudayaan Kabupaten Purbalingga. All rights reserved.
+        </div>
+    </footer>
 
-    <!-- Toast Notification Container -->
-    <div class="toast-container" id="toast-area"></div>
-
-    <!-- JavaScript -->
-    <script>
-        const app = {
-            // Ganti dengan URL Web App Google Script Anda
-            gasUrl: 'https://script.google.com/macros/s/AKfycbwdgvWRTnSXQ4WoGjsRTLgOXGWfCqfFowPXVqmIv_rQrkSR_eGZWP34evoszwUAV3izkA/exec',
-            
-            init: function() {
-                const user = localStorage.getItem('gtk_user');
-                if (user) {
-                    this.currentUser = JSON.parse(user);
-                    this.updateUI();
-                } else {
-                    this.showPage('home');
-                }
-            },
-
-            showPage: function(pageId) {
-                // Hide all pages
-                document.getElementById('home-page').style.display = 'none';
-                document.getElementById('login-page').style.display = 'none';
-                document.getElementById('register-page').style.display = 'none';
-                document.getElementById('dashboard-page').style.display = 'none';
-                document.getElementById('main-nav').style.display = 'none';
-
-                if (pageId === 'home') {
-                    document.getElementById('home-page').style.display = 'block';
-                    document.getElementById('main-nav').style.display = 'flex';
-                    window.scrollTo(0, 0);
-                } else if (pageId === 'login') {
-                    if(this.currentUser) { this.showPage('dashboard'); return; }
-                    document.getElementById('login-page').style.display = 'flex';
-                } else if (pageId === 'register') {
-                    if(this.currentUser) { this.showPage('dashboard'); return; }
-                    document.getElementById('register-page').style.display = 'flex';
-                } else if (pageId === 'dashboard') {
-                    if(!this.currentUser) { this.showPage('login'); return; }
-                    document.getElementById('dashboard-page').style.display = 'block';
-                }
-            },
-
-            switchAuth: function(type) {
-                if (type === 'login') {
-                    document.getElementById('register-page').style.display = 'none';
-                    document.getElementById('login-page').style.display = 'flex';
-                } else {
-                    document.getElementById('login-page').style.display = 'none';
-                    document.getElementById('register-page').style.display = 'flex';
-                }
-            },
-
-            scrollToFeatures: function() {
-                document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
-            },
-
-            updateUI: function() {
-                document.getElementById('nav-actions').innerHTML = `
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <img src="https://ui-avatars.com/api/?name=${this.currentUser.nama}&background=4361ee&color=fff" style="width:35px; border-radius:50%;">
-                        <span style="font-weight:600; cursor:pointer;" onclick="app.showPage('dashboard')">${this.currentUser.nama.split(' ')[0]}</span>
-                    </div>
-                `;
-                document.getElementById('dash-greeting').innerHTML = `Halo, ${this.currentUser.nama}! 👋`;
-                this.showPage('dashboard');
-            },
-
-            logout: function() {
-                this.currentUser = null;
-                localStorage.removeItem('gtk_user');
-                document.getElementById('nav-actions').innerHTML = `
-                    <button class="btn-main" onclick="app.showPage('login')">
-                        <i class="fa-solid fa-right-to-bracket"></i> Masuk
-                    </button>
-                `;
-                this.showToast('Berhasil keluar', 'success');
-                this.showPage('home');
-            },
-
-            // --- Logic Login/Register (Dengan Simulasi & GAS Support) ---
-            
-            async handleRegister(e) {
-                e.preventDefault();
-                const btn = e.target.querySelector('button');
-                const spinner = btn.querySelector('.spinner');
-                const btnText = btn.childNodes[0]; // Text node
-
-                const data = {
-                    action: 'register',
-                    nama: document.getElementById('reg-nama').value,
-                    nip: document.getElementById('reg-nip').value,
-                    email: document.getElementById('reg-email').value,
-                    jabatan: document.getElementById('reg-jabatan').value,
-                    password: document.getElementById('reg-pass').value
-                };
-
-                this.setLoading(btn, spinner, true);
-
-                try {
-                    // Cek apakah menggunakan GAS atau Simulasi
-                    if (this.gasUrl && !this.gasUrl.includes('URL_GOOGLE')) {
-                        const res = await fetch(this.gasUrl, { method: 'POST', body: JSON.stringify(data) }).then(r => r.json());
-                        if (res.status === 'success') {
-                            this.showToast('Registrasi Berhasil! Silakan Login.', 'success');
-                            this.switchAuth('login');
-                            e.target.reset();
-                        } else {
-                            this.showToast(res.message, 'error');
-                        }
-                    } else {
-                        // Mode Simulasi Lokal
-                        await new Promise(r => setTimeout(r, 1500));
-                        localStorage.setItem('temp_reg_' + data.email, JSON.stringify(data));
-                        this.showToast('Registrasi Berhasil (Demo Mode)!', 'success');
-                        this.switchAuth('login');
-                        e.target.reset();
-                    }
-                } catch (err) {
-                    this.showToast('Terjadi kesalahan koneksi.', 'error');
-                } finally {
-                    this.setLoading(btn, spinner, false);
-                }
-            },
-
-            async handleLogin(e) {
-                e.preventDefault();
-                const btn = e.target.querySelector('button');
-                const spinner = btn.querySelector('.spinner');
-                
-                const data = {
-                    action: 'login',
-                    email: document.getElementById('login-email').value,
-                    password: document.getElementById('login-pass').value
-                };
-
-                this.setLoading(btn, spinner, true);
-
-                try {
-                    let user = null;
-
-                    if (this.gasUrl && !this.gasUrl.includes('URL_GOOGLE')) {
-                        const res = await fetch(this.gasUrl, { method: 'POST', body: JSON.stringify(data) }).then(r => r.json());
-                        if (res.status === 'success') user = res.user;
-                        else this.showToast(res.message, 'error');
-                    } else {
-                        // Mode Simulasi Lokal
-                        await new Promise(r => setTimeout(r, 1500));
-                        const stored = localStorage.getItem('temp_reg_' + data.email);
-                        if (stored) {
-                            const parsed = JSON.parse(stored);
-                            if (parsed.password === data.password) user = parsed;
-                            else this.showToast('Password salah', 'error');
-                        } else if (data.email === 'admin' && data.password === 'admin') {
-                            user = { nama: 'Admin GTK', email: 'admin' };
-                        } else {
-                            this.showToast('Email tidak ditemukan', 'error');
-                        }
-                    }
-
-                    if (user) {
-                        this.currentUser = user;
-                        localStorage.setItem('gtk_user', JSON.stringify(user));
-                        this.showToast('Login Berhasil!', 'success');
-                        this.updateUI();
-                    }
-
-                } catch (err) {
-                    this.showToast('Gagal terhubung ke server.', 'error');
-                } finally {
-                    this.setLoading(btn, spinner, false);
-                }
-            },
-
-            setLoading: function(btn, spinner, isLoading) {
-                btn.disabled = isLoading;
-                spinner.style.display = isLoading ? 'inline-block' : 'none';
-            },
-
-            showToast: function(msg, type) {
-                const container = document.getElementById('toast-area');
-                const toast = document.createElement('div');
-                toast.className = `toast ${type}`;
-                toast.innerHTML = `
-                    <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}"></i>
-                    <span>${msg}</span>
-                `;
-                container.appendChild(toast);
-                
-                // Trigger animation
-                setTimeout(() => toast.classList.add('show'), 10);
-
-                // Remove after 3s
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                    setTimeout(() => toast.remove(), 300);
-                }, 3000);
-            }
-        };
-
-        // Initialize App
-        document.addEventListener('DOMContentLoaded', () => {
-            app.init();
-        });
-    </script>
 </body>
 </html>
